@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'cubit/tabcubit_cubit.dart';
 
 class TabScreen extends StatelessWidget {
   // This widget is the root of your application.
- @override
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -17,7 +20,7 @@ class TabScreen extends StatelessWidget {
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
               colors: [Colors.blue[300], Colors.blue],
-            ),           
+            ),
           ),
         ),
         actions: <Widget>[
@@ -25,7 +28,7 @@ class TabScreen extends StatelessWidget {
               padding: EdgeInsets.only(right: 20.0),
               child: GestureDetector(
                 onTap: () {
-                   print('Change Screen');
+                  print('Change Screen');
                 },
                 child: Icon(
                   Icons.search,
@@ -39,6 +42,7 @@ class TabScreen extends StatelessWidget {
         length: 2,
         child: Scaffold(
           appBar: TabBar(
+            onTap: (index) => context.bloc<TabcubitCubit>().getFunction('', ''),
             tabs: [Tab(text: 'Get'), Tab(text: 'Take')],
             labelColor: Colors.blue,
             unselectedLabelColor: Colors.grey,
@@ -148,7 +152,7 @@ class HistoryReceiveItem extends StatelessWidget {
       padding: EdgeInsets.only(top: 8, left: 15, right: 15),
       child: GestureDetector(
         onTap: () {
-         print('Change Screen');
+          print('Change Screen');
         },
         child: Card(
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
