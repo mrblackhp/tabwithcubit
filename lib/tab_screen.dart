@@ -1,8 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class TabScreen extends StatelessWidget {
+import 'cubit/tabcubit_cubit.dart';
+
+class TabScreen extends StatefulWidget {
   // This widget is the root of your application.
- @override
+  @override
+  _TabScreenState createState() => _TabScreenState();
+}
+
+class _TabScreenState extends State<TabScreen>
+    with SingleTickerProviderStateMixin {
+  TabController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = TabController(vsync: this, length: 2)
+      ..addListener(() {
+        context.bloc<TabcubitCubit>().getFunction('', '');
+      });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -17,7 +37,7 @@ class TabScreen extends StatelessWidget {
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
               colors: [Colors.blue[300], Colors.blue],
-            ),           
+            ),
           ),
         ),
         actions: <Widget>[
@@ -25,7 +45,7 @@ class TabScreen extends StatelessWidget {
               padding: EdgeInsets.only(right: 20.0),
               child: GestureDetector(
                 onTap: () {
-                   print('Change Screen');
+                  print('Change Screen');
                 },
                 child: Icon(
                   Icons.search,
@@ -35,15 +55,16 @@ class TabScreen extends StatelessWidget {
         ],
       ),
       extendBodyBehindAppBar: false,
-      body: DefaultTabController(
-        length: 2,
-        child: Scaffold(
-          appBar: TabBar(
-            tabs: [Tab(text: 'Get'), Tab(text: 'Take')],
-            labelColor: Colors.blue,
-            unselectedLabelColor: Colors.grey,
-          ),
-          body: TabBarView(children: [
+      body: Scaffold(
+        appBar: TabBar(
+          controller: _controller,
+          tabs: [Tab(text: 'Get'), Tab(text: 'Take')],
+          labelColor: Colors.blue,
+          unselectedLabelColor: Colors.grey,
+        ),
+        body: TabBarView(
+          controller: _controller,
+          children: [
             Container(
               child: ListView(
                 padding: EdgeInsets.zero,
@@ -74,7 +95,7 @@ class TabScreen extends StatelessWidget {
                 ],
               ),
             ),
-          ]),
+          ],
         ),
       ),
     );
@@ -148,7 +169,7 @@ class HistoryReceiveItem extends StatelessWidget {
       padding: EdgeInsets.only(top: 8, left: 15, right: 15),
       child: GestureDetector(
         onTap: () {
-         print('Change Screen');
+          print('Change Screen');
         },
         child: Card(
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
